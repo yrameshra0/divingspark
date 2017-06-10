@@ -9,15 +9,12 @@ public class SparkSimpleApp {
         JavaSparkContext sparkContext = new JavaSparkContext(conf);
         JavaRDD<String> readmeRDD = sparkContext.textFile(readmeFile).cache();
 
-        long numberOfAs = countOfCharInFile(readmeRDD, "a");
-        long numberOfBs = countOfCharInFile(readmeRDD, "b");
+        long numberOfAs = readmeRDD.filter(line -> line.contains("a")).count();
+        long numberOfBs = readmeRDD.filter(line -> line.contains("b")).count();
 
         System.out.println(String.format("Lines with a:%d | Lines with b:%d", numberOfAs, numberOfBs));
 
         sparkContext.stop();
     }
 
-    private static long countOfCharInFile(JavaRDD<String> readmeRDD, String characterToSerach) {
-        return readmeRDD.filter(line -> line.contains(characterToSerach)).count();
-    }
 }
