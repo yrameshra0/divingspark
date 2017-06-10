@@ -1,0 +1,4 @@
+FROM spark
+
+ENV APP_HOME /home/
+COPY build/libs/divingspark-1.0.jar $APP_HOME
